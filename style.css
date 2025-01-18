@@ -425,3 +425,23 @@ body {
   background-color: #000;
   color: #fff;
 }
+
+.footer {
+  background-color: #f8f8f8;
+  color: #333;
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.footer-social a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+}

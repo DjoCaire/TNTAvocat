@@ -1,0 +1,48 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" sizes="64x64" href="logo_icone.ico">
+    <title>TNT Avocats</title>
+</head>
+<body>
+
+    <div class="logo-container">
+        <img src="logo.png" alt="Logo" class="logo">
+    </div>
+
+    <div id="navbar">
+        <img src="logo.png" alt="logo TNT" class="logo_navbar">
+        <div class="separator"></div>
+        <ul class="navbar-item">
+            <li><a href="#actualite">Les Actualités</a></li>
+        </ul>
+    </div>
+
+    <div id="actualite">
+      <div id="news-container" class="news-container" style="padding-top: 120px;">
+        <!-- Les articles sont insérés ici dynamiquement -->
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const entries = await fetchContentfulArticles();
+            if (entries) {
+                displayArticles(entries, ".news-container");
+            }
+        });
+    </script>
+    <script src="news.js"></script>
+</body>
+<footer class="footer">
+  <div class="footer-social">
+    <a href="http://takhedmit-avocat.over-blog.com/" target="_blank">Blog Lee TAKHEDMIT</a>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2025 SOUCHET Mathéo. Tous droits réservés.</p>
+  </div>
+</footer>
+</html>

@@ -14,8 +14,7 @@ async function fetchContentfulArticles() {
             throw new Error(`Erreur : ${response.status}`);
         }
 
-        const data = await response.json();
-        displayArticles(data);
+        return await response.json();
     } catch (error) {
         console.error('Erreur lors de la récupération des articles :', error);
         newsContainer.innerHTML = '<p>Impossible de charger les articles pour le moment.</p>';
@@ -23,82 +22,88 @@ async function fetchContentfulArticles() {
 }
 
 // Fonction pour afficher les articles
-function displayArticles(data) {
-    const articles = data.items;
+function displayArticles(entries, containerSelector, limit = null) {
 
+    const container = document.querySelector(containerSelector);
+    if (!container) {
+        console.error("Le conteneur spécifié n'existe pas.");
+        return;
+    }
+
+    // Vide le conteneur avant d'afficher les articles
+    container.innerHTML = "";
+
+    // Trie les articles par date décroissante
+    const articles = entries.items;
     articles.sort((a, b) => new Date(b.fields.date) - new Date(a.fields.date));
 
-    const recentArticles = articles.slice(0, 2);
+    // Applique la limite si spécifiée
+    const articlesToDisplay = limit ? articles.slice(0, limit) : articles;
 
-    newsContainer.innerHTML = '';
+    // Récupère les assets (images)
+    const assets = entries.includes.Asset;
 
-    const articlesContainer = document.getElementById('news-container');
-    articlesContainer.innerHTML = '';
-
-    const assets = data.includes.Asset; // Contient les assets (images)
-    recentArticles.forEach((item) => {
+    // Affiche chaque article
+    articlesToDisplay.forEach((item) => {
         const fields = item.fields;
 
-        
-        const articleElement = document.createElement('div');
-        articleElement.classList.add('news-article');
+        // Crée l'élément principal de l'article
+        const articleElement = document.createElement("div");
+        articleElement.classList.add("news-article");
+
+        // élement qui contient les informations textuels
+        const articleContent = document.createElement("div");
+        articleContent.classList.add("article-content")
 
         // Titre
-        const titleElement = document.createElement('h2');
+        const titleElement = document.createElement("h2");
         titleElement.textContent = fields.titre;
-        titleElement.classList.add('article-title');
+        titleElement.classList.add("article-title");
 
         // Image
         if (fields.image && fields.image.sys.id) {
-            const imageId = fields.image.sys.id;
-            const asset = assets.find((asset) => asset.sys.id === imageId);
-            if (asset) {
-                const imgElement = document.createElement('img');
-                imgElement.src = asset.fields.file.url;
-                imgElement.alt = fields.titre;
-                imgElement.classList.add('article-image');
-                articleElement.appendChild(imgElement);
-            }
+        const imageId = fields.image.sys.id;
+        const asset = assets.find((asset) => asset.sys.id === imageId);
+        if (asset) {
+            const imgElement = document.createElement("img");
+            imgElement.src = asset.fields.file.url;
+            imgElement.alt = fields.titre;
+            imgElement.classList.add("article-image");
+            articleElement.appendChild(imgElement);
         }
-
+        }
 
         // Description
-        const descriptionElement = document.createElement('p');
+        const descriptionElement = document.createElement("p");
         descriptionElement.textContent = fields.description;
-        descriptionElement.classList.add('article-description');
+        descriptionElement.classList.add("article-description");
 
         // Lien
-        const linkElement = document.createElement('a');
-        linkElement.href = fields.lien || '#';
-        linkElement.target = '_blank';
-        linkElement.textContent = 'Lire la suite...';
-        linkElement.classList.add('article-link');
-
-        const articleContent = document.createElement('div');
-
-        articleContent.appendChild(titleElement);
+        const linkElement = document.createElement("a");
+        linkElement.href = fields.lien || "#";
+        linkElement.target = "_blank";
+        linkElement.textContent = "Lire la suite...";
+        linkElement.classList.add("article-link");
 
         // Date
-        if (fields.date) {
-            const dateElement = document.createElement('p');
-            const date = new Date(fields.date); // Convertir la date en objet Date
-            dateElement.textContent = `Publié le : ${date.toLocaleDateString('fr-FR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-            })}`;
-            dateElement.classList.add('article-date');
-            articleContent.appendChild(dateElement);
-        }
+        const dateElement = document.createElement("p");
+        const date = new Date(fields.date); // Convertir la date en objet Date
+        dateElement.textContent = `Publié le : ${date.toLocaleDateString("fr-FR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        })}`;
+        dateElement.classList.add("article-date");
+        
 
+        // Ajoute les éléments dans l'article
+        articleContent.appendChild(titleElement);
+        articleContent.appendChild(dateElement);
         articleContent.appendChild(descriptionElement);
         articleContent.appendChild(linkElement);
 
         articleElement.appendChild(articleContent);
-
-        newsContainer.appendChild(articleElement);
+        // Ajoute l'article dans le conteneur
+        container.appendChild(articleElement);
     });
 }
-
-
-fetchContentfulArticles();
