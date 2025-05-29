@@ -424,13 +424,13 @@ h2 {
   }
 
   #article-container {
-  max-width: 800px;
-  margin: 120px auto;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 120px auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
 }
 
 .single-article h1 {
@@ -459,6 +459,7 @@ h2 {
   display: inline-block;
   margin-top: 30px;
   padding: 10px 20px;
+  width: fit-content;
   background-color: #eee;
   color: #000;
   border: 1px solid #aaa;
@@ -601,6 +602,9 @@ h2 {
   }
 
   #article-container {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
     margin: 20px;
     padding: 15px;
     margin-top: 15vh;
