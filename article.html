@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Article</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="navbar">
+        <a href="index.html" style="display: flex; justify-content: center;"><img src="logo.png" alt="logo TNT"  class="logo_navbar"></a>
+        <div class="separator"></div>
+        <ul class="navbar-item">
+            <li><a href="actualite.html" style="display: block; width: max-content;">Les Actualités</a></li>
+        </ul>
+    </div>
+
+  <main id="article-container">
+    <!-- L'article sera affiché ici dynamiquement -->
+  </main>
+
+  <script src="news.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const params = new URLSearchParams(window.location.search);
+      const articleId = params.get("id");
+
+      if (articleId) {
+        const entries = await fetchContentfulArticles();
+        const article = entries.items.find(item => item.sys.id === articleId);
+        if (article) {
+          displaySingleArticle(article, entries.includes.Asset);
+        } else {
+          document.getElementById("article-container").innerText = "Article non trouvé.";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
