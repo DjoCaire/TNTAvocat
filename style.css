@@ -576,7 +576,7 @@ h2 {
   }
 
 
-  .text-container-avocat-petit p {
+  .text-container-avocat-petit p, .text-container-avocat p, .text-container-cabinet p {
     font-size: 16px;
   }
 
@@ -622,9 +622,5 @@ h2 {
     width: 80%;
     height: auto; 
     max-height: 60vh; 
-  }
-
-  .logo-container {
-    padding: 20px;
   }
 }
