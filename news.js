@@ -32,6 +32,9 @@ function displayArticles(entries, containerSelector, limit = null) {
     container.innerHTML = "";
 
     const articles = entries.items;
+    if (articles === undefined || articles.length == 0) {
+        newsContainer.innerHTML = '<p>Il n\'y a pas d\'articles pour le moment.</p>';
+    }
     articles.sort((a, b) => new Date(b.fields.date) - new Date(a.fields.date));
 
     const articlesToDisplay = limit ? articles.slice(0, limit) : articles;
