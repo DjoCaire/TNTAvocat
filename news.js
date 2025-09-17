@@ -138,7 +138,20 @@ function displaySingleArticle(article, assets) {
 
   // Description
   const descriptionElement = document.createElement("p");
-  descriptionElement.textContent = fields.description;
+  const contentText = fields.description;
+
+  const urlPattern = /^https?:\/\/.+/;
+
+if (urlPattern.test(contentText)) {
+  const linkElement = document.createElement("a");
+  linkElement.href = contentText;
+  linkElement.textContent = contentText;
+  linkElement.classList.add("article-link");
+  linkElement.target = "_blank";
+  descriptionElement.appendChild(linkElement);
+} else {
+  descriptionElement.textContent = contentText;
+}
 
   articleElement.appendChild(titleElement);
   articleElement.appendChild(dateElement);
